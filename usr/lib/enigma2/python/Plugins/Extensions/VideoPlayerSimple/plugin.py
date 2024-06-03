@@ -55,26 +55,26 @@ class MoviePlayer(OrigMoviePlayer):
 		self.session = session
 		self.WithoutStopClose = False
 		OrigMoviePlayer.__init__(self, self.session, service)
-	
+
 	def doEofInternal(self, playing):
 		if not self.execing:
 			return
 		if not playing:
 			return
 		self.leavePlayer()
-	
+
 	def leavePlayer(self):
 		self.close()
 
 	def showMovies(self):
 		self.close()
-	
+
 	def movieSelected(self, service):
 		self.leavePlayer(self.de_instance)
 
-	def __onClose(self):                                                        
-		if not(self.WithoutStopClose):                                      
-			self.session.nav.playService(self.lastservice)              
+	def __onClose(self):
+		if not(self.WithoutStopClose):
+			self.session.nav.playService(self.lastservice)
 
 class VideoPlayerSimple_Config(Screen, ConfigListScreen):
 	if (getDesktop(0).size().width() >= 1920):
@@ -95,7 +95,7 @@ class VideoPlayerSimple_Config(Screen, ConfigListScreen):
 				<widget name="key_yellow" position="305,350" size="145,40" zPosition="2" font="Regular;21" halign="center" valign="center" backgroundColor="#a08500" foregroundColor="white" />
 				<widget name="key_blue" position="455,350" size="145,40" zPosition="2" font="Regular;21" halign="center" valign="center" backgroundColor="#18188b" foregroundColor="white" />
 			</screen>"""
-	
+
 	def __init__(self, session):
 		Screen.__init__(self, session)
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
@@ -126,7 +126,7 @@ class VideoPlayerSimple_Config(Screen, ConfigListScreen):
 	def save(self):
 		ConfigListScreen.keySave(self)
 		configfile.save()
-		
+
 class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, InfoBarCueSheetSupport, InfoBarNotifications, InfoBarSeek):
 
 	STATE_PLAYING = 1
@@ -194,7 +194,7 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 				<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/VideoPlayerSimple/blue_hd.png" position="1256,698" size="20,20" alphatest="on"/>
 				<widget name="filelist" position="2,3" size="1272,690" backgroundColor="#4512121e" foregroundColor="#f0f0f0" scrollbarMode="showOnDemand" enableWrapAround="1"/>
 			</screen>""" % ( posxhd, posyhd, sizexhd, sizeyhd, textposxhd, textposyhd, textsizexhd, textsizeyhd )
-		
+
 	def __init__(self, session, args = None):
 		self.skin = VideoPlayerSimple.skin
 		Screen.__init__(self, session)
@@ -221,7 +221,7 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 		fwd900 = lambda: self.seekRelative(1, 900 * 90000)
 		self.state = self.STATE_PLAYING
 		self.onPlayStateChanged = [ ]
-		
+
 		self["myactions"] = ActionMap(["VideoPlayerActions"],
 		{
 			"vp_ok": self.ok,
@@ -281,16 +281,16 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 		self["filelist"] = []
 		self.filelist = FileList(currDir, useServiceRef = True, showDirectories = True, showFiles = True, matchingPattern = "(?i)^.*\.(dts|mp3|wav|wave|wv|oga|ogg|flac|m4a|mp2|m2a|wma|ac3|mka|aac|ape|alac|amr|au|mid|mpg|mpeg|mpe|vob|m4v|mkv|avi|divx|dat|flv|mp4|mov|wmv|asf|3gp|3g2|rm|rmvb|ogm|ogv|m2ts|mts|ts|pva|wtv|webm|stream|iso|img|nrg|jpg|jpeg|jpe|png|bmp|gif|svg|mvi|m3u|m3u8|tv|radio|e2pls|pls|webp)", additionalExtensions = "4198:jpg 4198:jpeg 4198:jpe 4198:png 4198:bmp 4198:gif 4198:svg 4198:mvi 4198:m3u 4198:m3u8 4198:tv 4198:radio 4198:e2pls 4198:pls 4198:webp", sort = sort)
 		self["filelist"] = self.filelist
-		
+
 		self.filelist.onSelectionChanged.append(self.selectionChanged)
 		self["currentfolder"].setText(self.filelist.getCurrentDirectory())
-		
+
 		self.VideoTimer = eTimer()
 		self.VideoTimer.callback.append(self.showVideo)
 
 		self.ThumbTimer = eTimer()
 		self.ThumbTimer.callback.append(self.showThumb)
-		
+
 		self.picload = ePicLoad()
 		self.picload.PictureData.get().append(self.showPic)
 
@@ -314,7 +314,7 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 			if self.filelist.getCurrentDirectory() and self.filelist.getFilename():
 				if self.picload.getThumbnail(self.filelist.getFilename()) == 1:
 					self.ThumbTimer.start(500, True)
-	
+
 	def toggleThumb(self):
 		if self["label"].getText() == "":
 			self.showThumb()
@@ -408,7 +408,7 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 	def selectionChanged(self):
 		self["currentfolder"].setText(self.filelist.getCurrentDirectory())
 		self.ThumbTimer.stop()
-		
+
 	def up(self):
 		self.filelist.up()
 		self.filename = self.filelist.getFilename()
@@ -421,7 +421,7 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 				self["label"].setText("")
 				self["thn"].hide()
 				self.VideoTimer.start(int(config.plugins.videoplayersimple.playdelay.value), True)
-		
+
 	def down(self):
 		self.filelist.down()
 		self.filename = self.filelist.getFilename()
@@ -434,7 +434,7 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 				self["label"].setText("")
 				self["thn"].hide()
 				self.VideoTimer.start(int(config.plugins.videoplayersimple.playdelay.value), True)
-	
+
 	def chUp(self):
 		self.filelist.pageUp()
 
@@ -463,20 +463,20 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 			if self.filelist.getServiceRef() is not None and self.filelist.getServiceRef().type != 4198:
 				self.session.nav.stopService()
 				self.session.nav.playService(self.filelist.getServiceRef())
-	
+
 	def ok(self):
 		if self.isVisible == False:
 			self.visibility()
 			return
 		self.VideoTimer.stop()
-		
+
 		self.filename = self.filelist.getFilename()
 		if self.filename != None:
 			try:
 				if self.filename.lower().endswith(('.jpg', '.jpeg', '.jpe', '.png', '.gif', '.bmp', '.svg')):
 					if config.plugins.videoplayersimple.pictureplayer.value == False:
 						from Plugins.Extensions.PicturePlayer import ui
-						#this doesn´t work, any idea !!!
+						#this doesnÂ´t work, any idea !!!
 						#cannot concatenate 'str' and 'eServiceReference'
 						#self.session.openWithCallback(self.callbackView, ui.Pic_Thumb, self.filelist.getFileList(), self.filelist.getSelectionIndex(), self.filelist.getCurrentDirectory())
 						#self.session.openWithCallback(self.callbackView, ui.Pic_Full_View, self.filelist.getFileList(), self.filelist.getSelectionIndex(), self.filelist.getCurrentDirectory())
@@ -488,7 +488,7 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 						self.tempfl.changeDir(self.filelist.getCurrentDirectory())
 						self.session.openWithCallback(self.callbackView, ui.Pic_Thumb, self.tempfl.getFileList(), self.filelist.getSelectionIndex(), self.filelist.getCurrentDirectory())
 						#self.session.openWithCallback(self.callbackView, ui.Pic_Full_View, self.tempfl.getFileList(), 0, self.filelist.getCurrentDirectory())
-						
+
 					else:
 						self.session.openWithCallback(self.callbackView, PictureExplorer, self.filename, self.filelist.getCurrentDirectory())
 			except Exception as e:
@@ -507,7 +507,7 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 					self.session.openWithCallback(self.convertConfirmed, MessageBox, "This file cannot be displayed:\n\n'%s'\n\nDo you want to convert it to jpg ?" % (self.filename), list=[("No", False), ("Yes", True)])
 			except:
 				pass
-			
+
 			try:
 				if self.filename.lower().endswith(('.m3u', '.m3u8')):
 					self.session.nav.stopService()
@@ -528,7 +528,7 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 					self.session.open(plsOpen, self.filename)
 			except Exception as e:
 				print("pls file error:", e)
-			
+
 			try:
 				if self.filename.lower().endswith(('.tv', '.radio')):
 					self.session.nav.stopService()
@@ -550,14 +550,14 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 					return
 			except Exception as e:
 				print("DVD Player error:", e)
-		
+
 		if self.filelist.canDescent():
 			self.filelist.descent()
-		
+
 		if self.filelist.getServiceRef() is not None and self.filelist.getServiceRef().type != 4198:
 			self.session.nav.stopService()
 			self.session.nav.playService(self.filelist.getServiceRef())
-	
+
 	def convertConfirmed(self, confirmed):
 		if confirmed:
 			if os_path.exists ("/usr/bin/ffmpeg") is True:
@@ -576,7 +576,7 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 				self.session.open(MessageBox, "conversion failed:\n\nffmpeg not installed", MessageBox.TYPE_ERROR)
 		else:
 			self.session.open(MessageBox, "conversion not performed !", MessageBox.TYPE_INFO, timeout=5)
-		
+
 	def callbackView(self, val=0):
 		if val > 0:
 			self.filelist.moveToIndex(val)
@@ -594,7 +594,7 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 			else:
 				if self.filelist.getServiceRef() is not None:
 					self.session.open(MoviePlayer, self.filelist.getServiceRef())
-			
+
 	def visibility(self, force=1):
 		if self.isVisible == True:
 			self.isVisible = False
@@ -622,7 +622,7 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 		sort = "alpha"
 		self.filelist.refresh(sort)
 		#self.filelist.moveToIndex(0)
-	
+
 	def hotkeyNamereverse(self):
 		sort = "alphareverse"
 		self.filelist.refresh(sort)
@@ -647,7 +647,7 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 		sort = "datereverse"
 		self.filelist.refresh(sort)
 		#self.filelist.moveToIndex(0)
-	
+
 	def ConfigMenu(self):
 		if self.isVisible == False:
 			self.visibility()
@@ -663,7 +663,7 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 		if self.isVisible == False:
 			self.show()
 			self.isVisible = True
-	
+
 	def stopTV(self):
 		if self.isVisible == False:
 			self.visibility()
@@ -675,7 +675,7 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 			self.visibility()
 			return
 		self.session.nav.playService(self.oldService)
-	
+
 	def exit(self):
 		if self.isVisible == False:
 			self.show()
@@ -715,7 +715,7 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 		if humanized:
 			return self.Humanizer(size)
 		return size
-	
+
 	def Humanizer(self, size):
 		for index,count in enumerate(['B', 'KB', 'MB', 'GB']):
 			if size < 1024.0:
@@ -807,12 +807,12 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 					from mutagen import File
 				except ImportError:
 					print(("\ninstall mutagen package, 'opkg install python-mutagen' or 'opkg install python3-mutagen'\n"))
-				
+
 				try:
 					os_remove('/tmp/cover_temp.jpg')
 				except OSError:
 					pass
-				
+
 				try:
 					self.audio = ID3(curSelFile)
 				except ID3NoHeaderError:
@@ -851,7 +851,7 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 				#print(("Artist: '%s'" % self.audio['TPE1'].text[0]))
 				#print(("Title: '%s'" % self.audio['TIT2'].text[0]))
 				#print(("Album: '%s'" % self.audio['TALB'].text[0]))
-				
+
 				file_infos = "File:  %s" % curSelFile+"\n\n"
 				file_infos = file_infos+"Artist:  %s" % mArtist + "\n"
 				file_infos = file_infos+"Title:  %s" % mTitle + "\n"
@@ -876,7 +876,7 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 						img.write(self.artwork)
 				except:
 					pass
-				
+
 				self.picload.setPara((self["thn"].instance.size().width(), self["thn"].instance.size().height(), 1, 1, False, 0, "#FF2C2C39", 1))
 				self.picload.getThumbnail('/tmp/cover_temp.jpg')
 
@@ -977,7 +977,7 @@ class m3uOpen(Screen):
 			'cancel': self.cancel,
 			'ok': self.okClicked
 		}, -2)
-        
+
 		self['currentfolder'] = Label('')
 		self['currentfolder'].setText('')
 		self.name = name
@@ -1029,7 +1029,7 @@ class e2plsOpen(Screen):
 			'cancel': self.cancel,
 			'ok': self.okClicked
 		}, -2)
-        
+
 		self['currentfolder'] = Label('')
 		self['currentfolder'].setText('')
 		self.name = name
@@ -1074,7 +1074,7 @@ class plsOpen(Screen):
 			'cancel': self.cancel,
 			'ok': self.okClicked
 		}, -2)
-        
+
 		self['currentfolder'] = Label('')
 		self['currentfolder'].setText('')
 		self.name = name
@@ -1106,7 +1106,7 @@ class plsOpen(Screen):
 			ref = eServiceReference(4097, 0, url)
 			ref.setName(name)
 			self.session.open(MoviePlayer, ref)
-			
+
 	def cancel(self):
 		Screen.close(self, False)
 
@@ -1125,7 +1125,7 @@ class userbouquetOpen(Screen):
 			'cancel': self.cancel,
 			'ok': self.okClicked
 		}, -2)
-        
+
 		self['currentfolder'] = Label('')
 		self['currentfolder'].setText('')
 		self.name = name
@@ -1165,7 +1165,7 @@ class userbouquetOpen(Screen):
 			ref = eServiceReference(4097, 0, url)
 			ref.setName(name)
 			self.session.open(MoviePlayer, ref)
-			
+
 	def cancel(self):
 		Screen.close(self, False)
 
@@ -1268,7 +1268,7 @@ class PictureExplorer(Screen):
 		if self.whatDir is not None:
 			pidx = 0
 			for (root, dirs, files) in os_walk(self.whatDir):
-				for name in sorted(files, key=str.lower):				
+				for name in sorted(files, key=str.lower):
 					if name.lower().endswith(('.jpg', '.jpeg', '.jpe', '.png', '.gif', '.bmp', '.svg')):
 						self.picList.append(name)
 						if name in self.whatPic:
@@ -1308,8 +1308,8 @@ class PictureExplorer(Screen):
 			else:
 				if self.Pindex == 0:
 					self.Pindex = (len(self.picList))
-				self.Pright()				
-	
+				self.Pright()
+
 	def info(self):
 		if self["State"].visible:
 			self["State"].setText("wait...")
