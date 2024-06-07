@@ -659,7 +659,7 @@ class VideoPlayerSimple(Screen, InfoBarAudioSelection, InfoBarSubtitleSupport, I
 		self.ThumbTimer.stop()
 		self.session.nav.stopService()
 		self.session.nav.playService(self.oldService)
-			
+
 		if self.isVisible == False:
 			self.show()
 			self.isVisible = True
@@ -966,7 +966,7 @@ class m3uOpen(Screen):
 	def __init__(self, session, name):
 		self.skin = VideoPlayerSimple.skin
 		Screen.__init__(self, session)
-		
+
 		self.filelist = []
 		self["filelist"] = user_list([])
 
@@ -1018,7 +1018,7 @@ class e2plsOpen(Screen):
 	def __init__(self, session, name):
 		self.skin = VideoPlayerSimple.skin
 		Screen.__init__(self, session)
-		
+
 		self.filelist = []
 		self["filelist"] = user_list([])
 
@@ -1063,7 +1063,7 @@ class plsOpen(Screen):
 	def __init__(self, session, name):
 		self.skin = VideoPlayerSimple.skin
 		Screen.__init__(self, session)
-		
+
 		self.filelist = []
 		self["filelist"] = user_list([])
 
@@ -1114,7 +1114,7 @@ class userbouquetOpen(Screen):
 	def __init__(self, session, name):
 		self.skin = VideoPlayerSimple.skin
 		Screen.__init__(self, session)
-		
+
 		self.filelist = []
 		self["filelist"] = user_list([])
 
