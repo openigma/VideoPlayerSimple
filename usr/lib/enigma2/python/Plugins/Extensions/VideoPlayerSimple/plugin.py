@@ -1323,5 +1323,5 @@ def main(session, **kwargs):
 
 def Plugins(**kwargs):
 	return [
-		PluginDescriptor(name = "Video Player Simple", description = "Simple Video Player", icon="plugin.png", where = PluginDescriptor.WHERE_PLUGINMENU, fnc = main),
-		PluginDescriptor(name = "Video Player Simple", description = "Simple Video Player", icon="plugin.png", where = PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=main)]
+		PluginDescriptor(name = "Video Player Simple", description = "Simple Media Player", icon="plugin.png", where = PluginDescriptor.WHERE_PLUGINMENU, fnc = main),
+		PluginDescriptor(name = "Video Player Simple", description = "Simple Media Player", icon="plugin.png", where = PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=main)]
